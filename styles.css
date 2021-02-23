@@ -1,0 +1,22 @@
+body {
+  padding: 30px;
+}
+.sortable {
+  padding: 40px;
+}
+
+tr:nth-child(even) {
+  background: #dadada;
+}
+
+.sortable th {
+  background-color: #2c5693;
+  color: #fff;
+}
+.sortable-header {
+  cursor: pointer;
+}
+.sortable-header:hover {
+  cursor: pointer;
+  background-color: #223d66;
+}
