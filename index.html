@@ -21,21 +21,21 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">1</th>
+                <!-- <th scope="row">1</th>
                 <td>Mark</td>
                 <td>Otto</td>
-                <td>@mdo</td>
+                <td>@mdo</td> -->
             </tr>
             <tr>
-                <th scope="row">2</th>
+                <!-- <th scope="row">2</th>
                 <td>Jacob</td>
                 <td>Thornton</td>
-                <td>@fat</td>
+                <td>@fat</td> -->
             </tr>
             <tr>
-                <th scope="row">3</th>
+                <!-- <th scope="row">3</th>
                 <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
+                <td>@twitter</td> -->
             </tr>
         </tbody>
     </table>
@@ -58,6 +58,12 @@
             request.send();
         }
 
+        function createDynamicTd(text) {
+            var td = document.createElement('td');
+            td.textContent = text;
+            return td;
+        }
+
         function populateRepoTable(commits) {
 
             while (repoCommitTable.firstChild) {
@@ -66,29 +72,11 @@
 
             // Populate table
             commits.forEach((row) => {
-
                 const tr = document.createElement('tr');
-
-                const tdName = document.createElement('td');
-                tdName.textContent = row.commit.author.name;
-
-                tr.appendChild(tdName);
-
-                const tdDate = document.createElement('td');
-                tdDate.textContent = row.commit.author.date;
-
-                tr.appendChild(tdDate);
-
-                const tdMessage = document.createElement('td');
-                tdMessage.textContent = row.commit.message;
-
-                tr.appendChild(tdMessage);
-
-                const tdUrl = document.createElement('td');
-                tdUrl.textContent = row.html_url;
-
-                tr.appendChild(tdUrl);
-
+                tr.appendChild(createDynamicTd(row.commit.author.name));
+                tr.appendChild(createDynamicTd(row.commit.author.date));
+                tr.appendChild(createDynamicTd(row.commit.message));
+                tr.appendChild(createDynamicTd(row.html_url));
                 repoCommitTable.append(tr);
             })
 
