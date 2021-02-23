@@ -10,13 +10,13 @@
 </head>
 
 <body>
-    <table class="table">
+    <table class="table" id="commit-table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Author Name</th>
+                <th scope="col">Commit Date</th>
+                <th scope="col">Message</th>
+                <th scope="col">Commit URL</th>
             </tr>
         </thead>
         <tbody>
@@ -41,19 +41,60 @@
     </table>
 
     <script type="text/javascript">
+
+        const repoCommitTable = document.querySelector('#commit-table > tbody');
+
         function getRepoCommits() {
             const request = new XMLHttpRequest();
-
             request.open('get', 'https://api.github.com/repositories/19438/commits');
             request.onload = () => {
                 try {
-                    const results = JSON.parse(request.responseText);
+                    const commits = JSON.parse(request.responseText);
+                    populateRepoTable(commits);
                 } catch {
                     console.warn('Could not get repo commits');
                 }
             };
             request.send();
         }
+
+        function populateRepoTable(commits) {
+
+            while (repoCommitTable.firstChild) {
+                repoCommitTable.removeChild(repoCommitTable.firstChild);
+            }
+
+            // Populate table
+            commits.forEach((row) => {
+
+                const tr = document.createElement('tr');
+
+                const tdName = document.createElement('td');
+                tdName.textContent = row.commit.author.name;
+
+                tr.appendChild(tdName);
+
+                const tdDate = document.createElement('td');
+                tdDate.textContent = row.commit.author.date;
+
+                tr.appendChild(tdDate);
+
+                const tdMessage = document.createElement('td');
+                tdMessage.textContent = row.commit.message;
+
+                tr.appendChild(tdMessage);
+
+                const tdUrl = document.createElement('td');
+                tdUrl.textContent = row.html_url;
+
+                tr.appendChild(tdUrl);
+
+                repoCommitTable.append(tr);
+            })
+
+        }
+
+        document.addEventListener("DOMContentLoaded", () => { getRepoCommits(); });
     </script>
 </body>
 
